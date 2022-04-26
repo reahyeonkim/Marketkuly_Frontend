@@ -29,7 +29,7 @@ const Signup = () => {
     }
   };
   const signUP = () => {
-    dispatch(userActions.signAPI(email, username, password));
+    dispatch(userActions.singUpAPI(email, username, password));
   };
 
   return (

@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import ProductList from "../pages/ProductList";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,6 +28,7 @@ function App() {
       <ConnectedRouter history={history}>
         <Header />
         <Switch>
+          <Route path="/" exact component={ProductList}></Route>
           <Route path="/login" exact component={Login}></Route>
           <Route path="/signup" exact component={Signup}></Route>
         </Switch>

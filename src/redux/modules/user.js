@@ -31,12 +31,15 @@ const initialState = {
   loginError: "",
 };
 
-export const singUpAPI = (email, username, password) => {
+export const singUpAPI = (email, username, password, address, zonecode, address_sub) => {
   return function (dispatch, getState, { history }) {
     const _user = {
       email,
       username,
       password,
+      address,
+      zonecode,
+      address_sub
     };
     console.log(_user);
 

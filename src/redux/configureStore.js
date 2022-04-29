@@ -4,7 +4,6 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { connectRouter } from "connected-react-router";
 import User from "./modules/user";
 import Product from "./modules/product";
-import Search from "../shared/search";
 // import history from "./history";
 
 export const history = createBrowserHistory();

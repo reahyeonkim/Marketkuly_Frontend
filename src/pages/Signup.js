@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
 import Text from "../elements/Text";
+import Post from "../components/Post";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,24 @@ const Signup = () => {
     }
   };
   const signUP = () => {
-    dispatch(userActions.singUpAPI(email, username, password));
+    dispatch(userActions.singUpAPI(email, username, password, address, zonecode, address_sub));
   };
+
+  	// 팝업창 상태 관리
+    const [popup, setPopup] = useState(false);
+    const [address, setAddress] = useState("");
+    const [zonecode, setZonecode] = useState("");
+    const [address_sub, setAddress_sub] = useState("");
+ 
+	// 팝업창 열기
+    const openPostCode = () => {
+      setPopup(true)
+    }
+ 
+	// 팝업창 닫기
+    const closePostCode = () => {
+      setPopup(false)
+    }
 
   return (
     <>
@@ -119,6 +136,44 @@ const Signup = () => {
               {` ${errorMessage}`}
             </Text>
           )}
+
+          <InputWrapper>
+            <TextWrapper>
+              <Text size="14px" padding="20px" margin="50px" bold>
+              주소<Ico>*</Ico>
+              </Text>
+            </TextWrapper>
+            
+            <Input
+              type="text"
+              placeholer="Address"
+              required
+              value={address}
+              disabled
+            />
+            <Button onClick={()=>{setPopup(!popup)}}>🔍︎ 주소 검색</Button>
+            {/* // 팝업 생성 기준 div */}
+            <div id='popupDom'>
+                {popup && (
+                  <Post onClose={closePostCode}  address={address} setAddress={setAddress} zonecode={zonecode} setZonecode={setZonecode}/>
+                )}
+            </div>
+          </InputWrapper>
+          <InputWrapper>
+            <TextWrapper>
+              <Text size="16px" padding="20px" margin="50px" bold>
+              {zonecode}
+              </Text>
+            </TextWrapper>
+            <Input
+              type="text"
+              placeholer="Address_sub"
+              onChange={(e) => onChange(e, setAddress_sub)}
+              required
+              value={address_sub}
+            />
+            <FakeDiv />
+          </InputWrapper>
         </Wrap>
 
         <ButtonWrapper>
@@ -204,4 +259,9 @@ const TextWrapper = styled.div`
 
 const FakeDiv = styled.div`
   width: 100px;
+`;
+
+const Ico = styled.span`
+  color: #ee6a7b;
+  padding-right: 2px;
 `;

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../redux/modules/user";
 import Text from "../elements/Text";
+import PopupDom from '../components/PopupDom';
+import PopupPostCode from '../components/PopupPostCode';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -14,8 +16,13 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-
   const [checkPassword, setCheckPassword] = useState(true);
+
+  const [address, setAddress] = useState("");
+  const [address_sub, setAddress_sub] = useState('')
+  const [zonecode,setZonecode] = useState('')
+  // 팝업창 상태 관리
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
 
   const onChange = (e, setInput) => {
     setInput(e.target.value);
@@ -29,8 +36,20 @@ const Signup = () => {
     }
   };
   const signUP = () => {
-    dispatch(userActions.singUpAPI(email, username, password));
+    dispatch(userActions.singUpAPI(email, username, password,address,address_sub,zonecode));
   };
+ 
+	// 팝업창 열기
+    const openPostCode = () => {
+        setIsPopupOpen(true)
+    }
+    // 팝업창 닫기
+    const closePostCode = () => {
+      setIsPopupOpen(false)
+  }
+  const updateAddress = () => {
+    setAddress(true)
+  }
 
   return (
     <>
@@ -78,6 +97,8 @@ const Signup = () => {
             />
             <FakeDiv />
           </InputWrapper>
+      
+
           <InputWrapper>
             <TextWrapper>
               <Text size="14px" padding="20px" margin="50px" bold>
@@ -119,6 +140,51 @@ const Signup = () => {
               {` ${errorMessage}`}
             </Text>
           )}
+
+            <InputWrapper>
+            <TextWrapper>
+              <Text size="14px" padding="20px" margin="50px" bold>
+                주소
+              </Text>
+            </TextWrapper>
+
+            <Input
+              type="text"
+              placeholer="address"
+              required
+              onChange={(e) => onChange(e, setAddress)}
+              value={address}
+              disabled
+            />
+            <Button onClick={openPostCode}>우편번호 검색</Button>
+            <div id='popupDom'>
+            {isPopupOpen && (
+                    <PopupDom>
+                        <PopupPostCode onClose={closePostCode} address={address} setAddress={setAddress} zonecode={zonecode} setZonecode={setZonecode}/>
+                    </PopupDom>
+
+                )}
+                </div>
+
+          </InputWrapper>
+
+          <InputWrapper>
+            <TextWrapper>
+              <Text size="14px" padding="20px" margin="50px" bold>
+                {zonecode}
+              </Text>
+            </TextWrapper>
+            <Input
+              type="text"
+              placeholer="Address_sub"
+              onChange={(e) => onChange(e, setAddress_sub)}
+              required
+              value={address_sub}
+            />
+            <FakeDiv />
+          </InputWrapper>
+
+
         </Wrap>
 
         <ButtonWrapper>
